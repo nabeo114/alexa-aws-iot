@@ -22,22 +22,35 @@
         ],
         "items": [
             {
-                "items": [
-                    {
-                        "color": "@colorText",
-                        "textAlign": "center",
-                        "textAlignVertical": "center",
-                        "text": "温度：${EnvMonitorDataSource.envTemperature}℃<br>湿度：${EnvMonitorDataSource.envHumidity}%<br>気圧：${EnvMonitorDataSource.envPressure}hPa",
-                        "fontSize": "@fontSize2XLarge",
-                        "type": "Text",
-                        "width": "100%",
-                        "height": "100%"
-                    }
-                ],
                 "backgroundColor": "@colorBackground",
                 "type": "Frame",
                 "width": "100%",
-                "height": "100%"
+                "height": "100%",
+                "items": [
+                    {
+                        "items": [
+                            {
+                                "type": "AlexaHeader",
+                                "headerTitle": "環境モニター",
+                                "headerSubtitle": "室内環境"
+                            },
+                            {
+                                "color": "@colorText",
+                                "textAlign": "center",
+                                "textAlignVertical": "center",
+                                "text": "温度：${EnvMonitorDataSource.envTemperature}℃<br>湿度：${EnvMonitorDataSource.envHumidity}%<br>気圧：${EnvMonitorDataSource.envPressure}hPa",
+                                "fontSize": "@fontSize2XLarge",
+                                "type": "Text",
+                                "width": "100%",
+                                "height": "100%",
+                                "position": "absolute"
+                            }
+                        ],
+                        "type": "Container",
+                        "width": "100%",
+                        "height": "100%"
+                    }
+                ]
             }
         ]
     }
