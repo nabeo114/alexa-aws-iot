@@ -5,6 +5,7 @@
 # session persistence, api calls, and more.
 # This sample is built using the handler classes approach in skill builder.
 import logging
+import json
 import ask_sdk_core.utils as ask_utils
 
 from ask_sdk_core.skill_builder import SkillBuilder
@@ -13,6 +14,8 @@ from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
+
+from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -42,6 +45,15 @@ class LaunchRequestHandler(AbstractRequestHandler):
         )
 
 
+env_monitor_doc_path = "EnvMonitorDocument.json"
+
+def load_apl_document(file_path):
+    # type: (str) -> Dict[str, Any]
+    """Load the apl json document at the path into a dict object."""
+    with open(file_path) as json_file:
+        return json.load(json_file)
+
+
 class EnvMonitorIntentHandler(AbstractRequestHandler):
     """Handler for Env Monitor Intent."""
     def can_handle(self, handler_input):
@@ -57,7 +69,23 @@ class EnvMonitorIntentHandler(AbstractRequestHandler):
         env_pressure = env_monitor.get_pressure()
 
 #        speak_output = "Hello World!"
-        speak_output = '室内環境は、温度：' + str(round(env_temperature,1)) + '℃、湿度：' + str(round(env_humidity,1)) + '%、気圧：' + str(round(env_pressure,1)) + 'hPaです。'
+        speak_output = "室内環境は、温度：" + str(round(env_temperature,1)) + "℃、湿度：" + str(round(env_humidity,1)) + "%、気圧：" + str(round(env_pressure,1)) + "hPaです。"
+
+        if ask_utils.get_supported_interfaces(
+                handler_input).alexa_presentation_apl is not None:
+            handler_input.response_builder.add_directive(
+                RenderDocumentDirective(
+                    token = "EnvMonitorDocumentToken",
+                    document = load_apl_document(env_monitor_doc_path),
+                    datasources = {
+                        "EnvMonitorDataSource": {
+                            "envTemperature": round(env_temperature,1),
+                            "envHumidity": round(env_humidity,1),
+                            "envPressure": round(env_pressure,1)
+                        }
+                    }
+                )
+            )
 
         return (
             handler_input.response_builder
