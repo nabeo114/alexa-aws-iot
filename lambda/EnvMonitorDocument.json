@@ -43,7 +43,10 @@
                                 "type": "Text",
                                 "width": "100%",
                                 "height": "100%",
-                                "position": "absolute"
+                                "paddingLeft": "@marginHorizontal",
+                                "paddingRight": "@marginHorizontal",
+                                "position": "relative",
+                                "shrink": 1
                             }
                         ],
                         "type": "Container",
