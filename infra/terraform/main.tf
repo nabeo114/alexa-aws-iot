@@ -97,11 +97,11 @@ resource "aws_iam_policy" "lambda_dynamodb_read" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
-  role       = local.lambda_role_name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_dynamodb_read" {
-  role       = local.lambda_role_name
+  role       = aws_iam_role.lambda_exec.name
   policy_arn = aws_iam_policy.lambda_dynamodb_read.arn
 }

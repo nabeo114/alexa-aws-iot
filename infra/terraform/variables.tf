@@ -22,7 +22,7 @@ variable "default_tags" {
 }
 
 variable "lambda_function_name" {
-  description = "Existing Lambda function name"
+  description = "Lambda function name"
   type        = string
 }
 
