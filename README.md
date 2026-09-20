@@ -82,8 +82,21 @@ make check
 - `models/ja-JP.json` の対話モデルは Alexa Developer Console（または ASK CLI）側にも反映が必要です。
 - APL ドキュメント(`src/env_monitor_document.json`)は Lambda 実行時に読み込まれるため、`src/` 配下で管理します。
 
-### Reference（参考）
+### Setup and test
 
-- https://developer.amazon.com/ja-JP/docs/alexa/alexa-skills-kit-sdk-for-python/overview.html
-- https://github.com/alexa/skill-sample-nodejs-trivia/tree/ja-JP
-- https://developer.amazon.com/ja-JP/docs/alexa/alexa-presentation-language/add-visuals-and-audio-to-your-skill.html
+1. Alexa Developer Console で対象の Custom Skill を開き、`models/ja-JP.json` の内容を対象言語（日本語）へ反映して保存します。
+2. `Custom > Endpoint` でサービスエンドポイントを `AWS Lambda ARN` にし、東京リージョンの Lambda ARN を設定します。現在の関数名は `alexa-aws-iot` です。
+3. Lambda の Alexa Skills Kit トリガーに Skill ID を設定し、Skill ID verification を有効にします。
+4. Console のテストシミュレーターでスキルを起動し、「室内環境」または「室内環境を教えて」と発話して、温度・湿度・気圧の応答を確認します。
+5. APL 対応端末またはシミュレーターで、温度・湿度・気圧の画面表示も確認します。
+
+Lambda ARN や Skill ID を変更した場合は、Terraform の `terraform.tfvars` も更新し、`terraform plan` で差分を確認します。
+
+## Reference
+
+- [カスタムスキルの概要](https://developer.amazon.com/ja-JP/docs/alexa/custom-skills/understanding-custom-skills.html)
+- [カスタムスキルを AWS Lambda 関数としてホスティングする](https://developer.amazon.com/ja-JP/docs/alexa/custom-skills/host-a-custom-skill-as-an-aws-lambda-function.html)
+- [カスタムスキルの JSON インターフェースのリファレンス](https://developer.amazon.com/ja-JP/docs/alexa/custom-skills/request-and-response-json-reference.html)
+- [Alexa Skills Kit SDK for Python](https://developer.amazon.com/ja-JP/docs/alexa/alexa-skills-kit-sdk-for-python/overview.html)
+- [ASK SDK for Python GitHub リポジトリ](https://github.com/alexa/alexa-skills-kit-sdk-for-python)
+- [Alexa Presentation Language（APL）](https://developer.amazon.com/ja-JP/docs/alexa/alexa-presentation-language/add-visuals-and-audio-to-your-skill.html)
